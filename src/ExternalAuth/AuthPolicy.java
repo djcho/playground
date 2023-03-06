@@ -1,4 +1,4 @@
 package ExternalAuth;
 
-public interface AuthPolicy {
+public class AuthPolicy {
 }

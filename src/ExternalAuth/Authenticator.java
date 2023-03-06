@@ -1,5 +1,5 @@
 package ExternalAuth;
 
 public interface Authenticator {
-    void authenticate();
+    AuthenticationResponse authenticate();
 }

@@ -3,8 +3,7 @@ package Iat;
 import lombok.Builder;
 
 @Builder
-public class IatOtpAuthData{
-    private String otpNumber;
+public class IatEmailAuthData {
+    private String authCode;
     private String requestId;
-
 }

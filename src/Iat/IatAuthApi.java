@@ -8,23 +8,33 @@ public class IatAuthApi implements ExternalAuthApi {
 
     @Override
     public AuthenticationResponse authenticate(Authenticator authenticator) {
-        authenticator.authenticate();
+        return authenticator.authenticate();
+    }
+
+    @Override
+    public RequestAuthResponse requestAuthentication(RequestableAuthenticator requestableAuthenticator) {
+        return requestableAuthenticator.requestAuthentication();
+    }
+
+    @Override
+    public RequestAuthResultResponse requestAuthenticationResult(RequestableAuthenticator requestableAuthenticator) {
+        return requestableAuthenticator.requestAuthenticationResult();
+    }
+
+    @Override
+    public AuthPolicy getAuthPolicy(String userId, String jwt) {
+        return null;
+    }
+
+    @Override
+    public DeviceRegistrationResponse requestDeviceRegistrationQr(String userId, String serviceId, String jwt) {
+        return null;
+    }
+
+    @Override
+    public DeviceRegistrationResultResponse requestDeviceRegistrationResult(String requestId, String jwt) {
         return null;
     }
 
 
-    @Override
-    public RegistrationResponse registerDevice(RegistrationRequest registrationRequest) {
-        return new IatRegistrationResponse();
-    }
-
-    @Override
-    public ConfirmRegistrationResponse confirmDeviceRegistration(ConfirmRegistrationRequest confirmRegistrationRequest) {
-        return new IatConfirmRegistrationResponse();
-    }
-
-    @Override
-    public AuthPolicy getAuthPolicy() {
-        return new IatAuthPolicy();
-    }
 }

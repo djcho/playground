@@ -1,14 +1,17 @@
 package Iat;
 
-import ExternalAuth.AuthData;
+import ExternalAuth.AuthenticationResponse;
 import ExternalAuth.Authenticator;
 
 public class IatOtpAuthenticator implements Authenticator {
-    public IatOtpAuthenticator(AuthData authData) {
+    IatOtpAuthData iatOtpAuthData;
+    public IatOtpAuthenticator(IatOtpAuthData iatOtpAuthData) {
+        this.iatOtpAuthData = iatOtpAuthData;
     }
 
     @Override
-    public void authenticate() {
+    public AuthenticationResponse authenticate() {
         //otp 인증
+        return null;
     }
 }
