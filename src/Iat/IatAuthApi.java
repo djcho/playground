@@ -1,10 +1,9 @@
 package Iat;
 import ExternalAuth.*;
 
-public class IatAuthClient implements ExternalAuthClient,
-        PolicyBaseClient, DeviceRegistrableClient{
+public class IatAuthApi implements ExternalAuthApi {
 
-    public IatAuthClient(){
+    public IatAuthApi(){
     }
 
     @Override

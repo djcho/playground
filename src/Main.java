@@ -4,7 +4,7 @@ import Iat.*;
 public class Main {
 
     public static void main(String[] args) {
-        ExternalAuthService externalAuthService = new ExternalAuthServiceImpl(new IatAuthClient(), new IatAuthenticatorFactory());
+        ExternalAuthService externalAuthService = new ExternalAuthServiceImpl(new IatAuthApi(), new IatAuthenticatorFactory());
         IatAuthPolicy iatAuthPolicy = externalAuthService.getAuthPolicy(IatAuthPolicy.class);
 
         //기기 등록
