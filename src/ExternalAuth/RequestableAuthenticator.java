@@ -1,6 +1,6 @@
 package ExternalAuth;
 
-public interface RequestableAuthenticator extends Authenticator {
+public interface RequestableAuthenticator {
     RequestAuthResponse requestAuthentication();
-    RequestAuthResultResponse requestAuthenticationResult();
+    GetAuthResultResponse requestAuthenticationResult();
 }

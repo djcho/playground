@@ -1,6 +1,8 @@
 package ExternalAuth;
 
 public interface AuthenticatorFactory {
-    Authenticator createAuthenticator(AuthDescription authDescription);
-    RequestableAuthenticator createRequestableAuthenticator(AuthDescription authDescription);
+    Authenticator createAuthenticator(AuthDescriptor authDescriptor);
+    RequestableAuthenticator createRequestableAuthenticator(AuthDescriptor authDescriptor);
+
+    RegisterableAuthenticator createRegisterableAuthenticator(AuthDescriptor authDescriptor);
 }

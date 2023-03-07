@@ -17,23 +17,48 @@ public class IatAuthApi implements ExternalAuthApi {
     }
 
     @Override
-    public RequestAuthResultResponse requestAuthenticationResult(RequestableAuthenticator requestableAuthenticator) {
+    public GetAuthResultResponse requestAuthenticationResult(RequestableAuthenticator requestableAuthenticator) {
         return requestableAuthenticator.requestAuthenticationResult();
     }
 
     @Override
-    public AuthPolicy getAuthPolicy(String userId, String jwt) {
+    public GetAuthPolicyResponse getAuthPolicy(String userId, String jwt) {
         return null;
     }
 
     @Override
-    public DeviceRegistrationResponse requestDeviceRegistrationQr(String userId, String serviceId, String jwt) {
+    public RequestDeviceRegistrationResponse requestDeviceRegistrationQr(String userId, String serviceId, String jwt) {
         return null;
     }
 
     @Override
-    public DeviceRegistrationResultResponse requestDeviceRegistrationResult(String requestId, String jwt) {
+    public GetDeviceRegistrationResultResponse requestDeviceRegistrationResult(String requestId, String jwt) {
         return null;
+    }
+
+    @Override
+    public CheckAuthRegistrationResposne checkAuthRegistration(RegisterableAuthenticator registerableAuthenticator) {
+        return registerableAuthenticator.checkAuthRegistration();
+    }
+
+    @Override
+    public RequestAuthRegistrationResponse requestAuthRegistration(RegisterableAuthenticator registerableAuthenticator) {
+        return registerableAuthenticator.requestAuthRegistration();
+    }
+
+    @Override
+    public RegisterAuthResponse registerAuth(RegisterableAuthenticator registerableAuthenticator) {
+        return registerableAuthenticator.registerAuth();
+    }
+
+    @Override
+    public ReRegisterAuthResponse reRegisterAuth(RegisterableAuthenticator registerableAuthenticator) {
+        return registerableAuthenticator.reRegisterAuth();
+    }
+
+    @Override
+    public RequestReregisterAuthResponse requestReregisterAuth(RegisterableAuthenticator registerableAuthenticator) {
+        return registerableAuthenticator.requestReregisterAuth();
     }
 
 

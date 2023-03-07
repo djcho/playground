@@ -11,33 +11,62 @@ public class ExternalAuthServiceImpl implements ExternalAuthService {
     }
 
     @Override
-    public AuthenticationResponse authenticate(AuthDescription authDescription) {
-        return externalAuthApi.authenticate(authenticatorFactory.createAuthenticator(authDescription));
+    public AuthenticationResponse authenticate(AuthDescriptor authDescriptor) {
+        return externalAuthApi.authenticate(authenticatorFactory.createAuthenticator(authDescriptor));
     }
 
     @Override
-    public RequestAuthResponse requestAuthentication(AuthDescription authDescription) {
-        return externalAuthApi.requestAuthentication(authenticatorFactory.createRequestableAuthenticator(authDescription));
+    public RequestAuthResponse requestAuthentication(AuthDescriptor authDescriptor) {
+        return externalAuthApi.requestAuthentication(authenticatorFactory.createRequestableAuthenticator(authDescriptor));
     }
 
     @Override
-    public RequestAuthResultResponse requestAuthenticationResult(AuthDescription authDescription) {
-        return externalAuthApi.requestAuthenticationResult(authenticatorFactory.createRequestableAuthenticator(authDescription));
+    public GetAuthResultResponse getAuthenticationResult(AuthDescriptor authDescriptor) {
+        return externalAuthApi.requestAuthenticationResult(authenticatorFactory.createRequestableAuthenticator(authDescriptor));
     }
 
     @Override
-    public AuthPolicy getAuthPolicy(String userId) {
+    public GetAuthPolicyResponse getAuthPolicy(String userId) {
         return externalAuthApi.getAuthPolicy(userId, "jwt");
     }
 
     @Override
-    public DeviceRegistrationResponse requestDeviceRegistrationQr(String userId) {
+    public RequestDeviceRegistrationResponse requestDeviceRegistration(String userId) {
         return externalAuthApi.requestDeviceRegistrationQr(userId, "serviceId", "jwt");
     }
 
     @Override
-    public DeviceRegistrationResultResponse requestDeviceRegistrationResult(String requestId) {
+    public GetDeviceRegistrationResultResponse getDeviceRegistrationResult(String requestId) {
         return externalAuthApi.requestDeviceRegistrationResult(requestId, "jwt");
     }
 
+    @Override
+    public CheckAuthRegistrationResposne checkAuthRegistration(AuthDescriptor authDescriptor) {
+        return externalAuthApi.checkAuthRegistration(authenticatorFactory.createRegisterableAuthenticator(authDescriptor));
+    }
+
+    @Override
+    public RequestAuthRegistrationResponse requestAuthRegistration(AuthDescriptor authDescriptor) {
+        return externalAuthApi.requestAuthRegistration(authenticatorFactory.createRegisterableAuthenticator(authDescriptor));
+    }
+
+    @Override
+    public RegisterAuthResponse registerAuth(AuthDescriptor authDescriptor) {
+        return externalAuthApi.registerAuth(authenticatorFactory.createRegisterableAuthenticator(authDescriptor));
+    }
+
+    @Override
+    public RequestReregisterAuthResponse requestReregisterAuth(AuthDescriptor authDescriptor) {
+        return externalAuthApi.requestReregisterAuth(authenticatorFactory.createRegisterableAuthenticator(authDescriptor));
+    }
+
+    @Override
+    public ReRegisterAuthResponse reRegisterAuth(AuthDescriptor authDescriptor) {
+        return externalAuthApi.reRegisterAuth(authenticatorFactory.createRegisterableAuthenticator(authDescriptor));
+    }
+
+    @Override
+    public String generateJwt(String userId) {
+        return "jwt!";
+    }
 }

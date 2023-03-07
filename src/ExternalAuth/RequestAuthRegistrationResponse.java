@@ -3,6 +3,6 @@ package ExternalAuth;
 import lombok.Getter;
 
 @Getter
-public class RequestAuthResponse {
+public class RequestAuthRegistrationResponse {
     private String requestId;
 }

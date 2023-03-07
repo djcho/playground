@@ -3,6 +3,6 @@ package ExternalAuth;
 import lombok.Data;
 
 @Data
-public class DeviceRegistrationResponse {
+public class RequestDeviceRegistrationResponse {
     private String qrData;
 }

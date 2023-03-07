@@ -1,16 +1,20 @@
 package Iat;
 
-import ExternalAuth.AuthenticationResponse;
-import ExternalAuth.Authenticator;
+import ExternalAuth.*;
 
-public class IatEmailAuthenticator implements Authenticator {
-    IatEmailAuthData iatEmailAuthData;
+public class IatEmailAuthenticator implements RequestableAuthenticator {
+    private IatEmailAuthData iatEmailAuthData;
     public IatEmailAuthenticator(IatEmailAuthData iatEmailAuthData) {
         this.iatEmailAuthData = iatEmailAuthData;
     }
 
     @Override
-    public AuthenticationResponse authenticate() {
+    public RequestAuthResponse requestAuthentication() {
+        return null;
+    }
+
+    @Override
+    public GetAuthResultResponse requestAuthenticationResult() {
         return null;
     }
 }

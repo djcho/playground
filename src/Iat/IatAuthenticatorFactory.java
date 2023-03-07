@@ -1,25 +1,31 @@
 package Iat;
 
-import ExternalAuth.AuthDescription;
-import ExternalAuth.Authenticator;
-import ExternalAuth.AuthenticatorFactory;
-import ExternalAuth.RequestableAuthenticator;
+import ExternalAuth.*;
 
 public class IatAuthenticatorFactory implements AuthenticatorFactory {
     @Override
-    public Authenticator createAuthenticator(AuthDescription authDescription) {
-        if(authDescription instanceof IatOtpAuthDescription iatOtpAuthDescription) {
+    public Authenticator createAuthenticator(AuthDescriptor authDescriptor) {
+        if(authDescriptor instanceof IatOtpAuthDescriptor iatOtpAuthDescription) {
             return new IatOtpAuthenticator(iatOtpAuthDescription.getIatOtpAuthData());
         }
-        else if(authDescription instanceof IatEmailAuthDescription iatEmailAuthDescription){
+
+        return null;
+    }
+
+    public RequestableAuthenticator createRequestableAuthenticator(AuthDescriptor authDescriptor) {
+        if(authDescriptor instanceof IatAppAuthDescriptor iatAppAuthDescription)
+            return new IatAppAuthenticator(iatAppAuthDescription.getIatAppAuthData());
+        else if(authDescriptor instanceof IatEmailAuthDescriptor iatEmailAuthDescription){
             return new IatEmailAuthenticator(iatEmailAuthDescription.getIatEmailAuthData());
         }
         return null;
     }
 
-    public RequestableAuthenticator createRequestableAuthenticator(AuthDescription authDescription) {
-        if(authDescription instanceof IatAppAuthDescription iatAppAuthDescription)
-            return new IatAppAuthenticator(iatAppAuthDescription.getIatAppAuthData());
+    @Override
+    public RegisterableAuthenticator createRegisterableAuthenticator(AuthDescriptor authDescriptor) {
+        if(authDescriptor instanceof IatManualOtpAuthDescriptor iatManualOtpAuthDescriptor) {
+            return new IatManualOtpAuthenticator(iatManualOtpAuthDescriptor.getIatManualOtpAuthData());
+        }
         return null;
     }
 }

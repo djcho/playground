@@ -1,10 +1,8 @@
 package Iat;
 
-import ExternalAuth.AuthenticationResponse;
 import ExternalAuth.RequestAuthResponse;
-import ExternalAuth.RequestAuthResultResponse;
+import ExternalAuth.GetAuthResultResponse;
 import ExternalAuth.RequestableAuthenticator;
-import Iat.IatAppAuthData;
 
 public class IatAppAuthenticator implements RequestableAuthenticator {
 
@@ -14,18 +12,12 @@ public class IatAppAuthenticator implements RequestableAuthenticator {
     }
 
     @Override
-    public AuthenticationResponse authenticate() {
-
-        return null;
-    }
-
-    @Override
     public RequestAuthResponse requestAuthentication() {
         return null;
     }
 
     @Override
-    public RequestAuthResultResponse requestAuthenticationResult() {
+    public GetAuthResultResponse requestAuthenticationResult() {
         return null;
     }
 }
