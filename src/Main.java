@@ -1,10 +1,22 @@
-import ExternalAuth.*;
-import Iat.*;
+import com.playground.authentication.Iat.*;
+import com.playground.authentication.Iat.api.IatAuthApi;
+import com.playground.authentication.Iat.authenticator.app.IatAppAuthData;
+import com.playground.authentication.Iat.authenticator.email.IatEmailAuthData;
+import com.playground.authentication.Iat.authenticator.manualotp.IatManualOtpAuthData;
+import com.playground.authentication.Iat.authenticator.otp.IatOtpAuthData;
+import com.playground.authentication.Iat.authenticator.app.IatAppAuthDescriptor;
+import com.playground.authentication.Iat.authenticator.email.IatEmailAuthDescriptor;
+import com.playground.authentication.Iat.authenticator.manualotp.IatManualOtpAuthDescriptor;
+import com.playground.authentication.Iat.authenticator.otp.IatOtpAuthDescriptor;
+import com.playground.authentication.external.ExternalAuthService;
+import com.playground.authentication.external.model.RegisterAuthResponse;
+import com.playground.authentication.external.model.RequestAuthResponse;
+import com.playground.authentication.external.model.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        ExternalAuthService externalAuthService = new ExternalAuthServiceImpl(new IatAuthApi(), new IatAuthenticatorFactory());
+        ExternalAuthService externalAuthService = new IatAuthServiceImpl(new IatAuthApi(), new IatAuthenticatorFactory());
 
         //인증 수단 목록 가져오기
         GetAuthPolicyResponse authPolicy = externalAuthService.getAuthPolicy("djcho");
