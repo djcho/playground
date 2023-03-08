@@ -1,43 +1,42 @@
 package com.playground.authentication.Iat.authenticator.manualotp;
 
-import com.playground.authentication.external.model.RegisterAuthResponse;
-import com.playground.authentication.external.RegisterableAuthenticator;
+
+import com.playground.authentication.Iat.model.IatManualOtpReqAuthRegResult;
+import com.playground.authentication.external.authenticator.AuthData;
+import com.playground.authentication.external.authenticator.RegisterableAuthenticator;
 import com.playground.authentication.external.model.*;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class IatManualOtpAuthenticator implements RegisterableAuthenticator {
-    private IatManualOtpAuthData iatManualOtpAuthData;
-
-    public IatManualOtpAuthenticator(IatManualOtpAuthData iatManualOtpAuthData){
-        this.iatManualOtpAuthData = iatManualOtpAuthData;
-    }
 
     @Override
-    public AuthenticationResponse authenticate() {
+    public AuthResponse authenticate(AuthData authData) {
         return null;
     }
 
     @Override
-    public CheckAuthRegistrationResposne checkAuthRegistration() {
+    public CheckedAuthRegResponse checkAuthRegistration(AuthData authData) {
         return null;
     }
 
     @Override
-    public RequestAuthRegistrationResponse requestAuthRegistration() {
-        return null;
+    public ReqAuthRegResponse requestAuthRegistration(AuthData authData) {
+
+        return new ReqAuthRegResponse() {
+            @Override
+            public <T extends ReqAuthRegResult> T getReqAuthRegResult(Class<T> resultType) {
+                return resultType.cast(IatManualOtpReqAuthRegResult.builder()
+                        .requestId("requestId")
+                        .otpKey("otpKey")
+                        .qrCode("qrCode")
+                        .build());
+            }
+        };
     }
 
     @Override
-    public RegisterAuthResponse registerAuth() {
-        return null;
-    }
-
-    @Override
-    public RequestReregisterAuthResponse requestReregisterAuth() {
-        return null;
-    }
-
-    @Override
-    public ReRegisterAuthResponse reRegisterAuth() {
+    public RegAuthResponse registerAuthentication(AuthData authData) {
         return null;
     }
 }

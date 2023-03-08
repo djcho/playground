@@ -1,4 +1,5 @@
 package com.playground.authentication.external.model;
 
-public class GetAuthPolicyResponse {
+public interface GetAuthPolicyResponse {
+    <T extends AuthPolicy> T getAuthPolicy(Class<T> resultType);
 }

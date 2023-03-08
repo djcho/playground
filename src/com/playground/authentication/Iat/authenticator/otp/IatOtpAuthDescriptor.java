@@ -1,12 +1,12 @@
 package com.playground.authentication.Iat.authenticator.otp;
 
-import com.playground.authentication.external.AuthDescriptor;
+import com.playground.authentication.external.authenticator.AuthData;
+import com.playground.authentication.external.authenticator.AuthDescriptor;
 import lombok.Getter;
 
 @Getter
-public class IatOtpAuthDescriptor implements AuthDescriptor {
-    IatOtpAuthData iatOtpAuthData;
-    public IatOtpAuthDescriptor(IatOtpAuthData iatOtpAuthData) {
-        this.iatOtpAuthData = iatOtpAuthData;
+public class IatOtpAuthDescriptor extends AuthDescriptor {
+    public IatOtpAuthDescriptor(AuthData authData) {
+        super(authData);
     }
 }

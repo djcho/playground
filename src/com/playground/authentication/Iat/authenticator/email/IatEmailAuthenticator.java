@@ -1,22 +1,28 @@
 package com.playground.authentication.Iat.authenticator.email;
 
+import com.playground.authentication.external.authenticator.AuthData;
+import com.playground.authentication.external.authenticator.Authenticator;
+import com.playground.authentication.external.authenticator.RequestableAuthenticator;
+import com.playground.authentication.external.model.AuthResponse;
 import com.playground.authentication.external.model.GetAuthResultResponse;
-import com.playground.authentication.external.model.RequestAuthResponse;
-import com.playground.authentication.external.RequestableAuthenticator;
+import com.playground.authentication.external.model.ReqAuthResponse;
+import lombok.NoArgsConstructor;
 
-public class IatEmailAuthenticator implements RequestableAuthenticator {
-    private IatEmailAuthData iatEmailAuthData;
-    public IatEmailAuthenticator(IatEmailAuthData iatEmailAuthData) {
-        this.iatEmailAuthData = iatEmailAuthData;
-    }
+@NoArgsConstructor
+public class IatEmailAuthenticator implements RequestableAuthenticator, Authenticator {
 
     @Override
-    public RequestAuthResponse requestAuthentication() {
+    public AuthResponse authenticate(AuthData authData) {
         return null;
     }
 
     @Override
-    public GetAuthResultResponse requestAuthenticationResult() {
+    public ReqAuthResponse requestAuthentication(AuthData authData) {
+        return null;
+    }
+
+    @Override
+    public GetAuthResultResponse requestAuthenticationResult(AuthData authData) {
         return null;
     }
 }

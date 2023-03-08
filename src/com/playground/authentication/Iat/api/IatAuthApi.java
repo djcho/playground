@@ -1,6 +1,16 @@
 package com.playground.authentication.Iat.api;
-import com.playground.authentication.external.*;
+
+
+import com.playground.authentication.Iat.model.IatAuthPolicy;
+import com.playground.authentication.Iat.model.IatReqDeviceRegResult;
+import com.playground.authentication.external.ExternalAuthApi;
+import com.playground.authentication.external.authenticator.AuthData;
+import com.playground.authentication.external.authenticator.Authenticator;
+import com.playground.authentication.external.authenticator.RegisterableAuthenticator;
+import com.playground.authentication.external.authenticator.RequestableAuthenticator;
 import com.playground.authentication.external.model.*;
+
+import java.util.Arrays;
 
 public class IatAuthApi implements ExternalAuthApi {
 
@@ -8,59 +18,64 @@ public class IatAuthApi implements ExternalAuthApi {
     }
 
     @Override
-    public AuthenticationResponse authenticate(Authenticator authenticator) {
-        return authenticator.authenticate();
+    public AuthResponse authenticate(Authenticator authenticator, AuthData authData) {
+        return authenticator.authenticate(authData);
     }
 
     @Override
-    public RequestAuthResponse requestAuthentication(RequestableAuthenticator requestableAuthenticator) {
-        return requestableAuthenticator.requestAuthentication();
+    public ReqAuthResponse requestAuthentication(RequestableAuthenticator requestableAuthenticator, AuthData authData) {
+        return requestableAuthenticator.requestAuthentication(authData);
     }
 
     @Override
-    public GetAuthResultResponse requestAuthenticationResult(RequestableAuthenticator requestableAuthenticator) {
-        return requestableAuthenticator.requestAuthenticationResult();
+    public GetAuthResultResponse requestAuthenticationResult(RequestableAuthenticator requestableAuthenticator, AuthData authData) {
+        return requestableAuthenticator.requestAuthenticationResult(authData);
     }
 
     @Override
-    public GetAuthPolicyResponse getAuthPolicy(String userId, String jwt) {
+    public GetAuthPolicyResponse getAuthPolicy(GetAuthPolicyRequest getAuthPolicyRequest) {
+        return new GetAuthPolicyResponse(){
+            @Override
+            public <T extends AuthPolicy> T getAuthPolicy(Class<T> resultType) {
+                return resultType.cast(
+                        IatAuthPolicy.builder()
+                                .isPossibleSendMailForEmailAuth(false)
+                                .authenticationTypeList(Arrays.asList("", ""))
+                                .isDeviceRegistered(false)
+                                .build());
+            }
+        };
+    }
+
+    @Override
+    public ReqDeviceRegResponse requestDeviceRegistration(ReqDeviceRegRequest reqDeviceRegRequest) {
+        return new ReqDeviceRegResponse() {
+            @Override
+            public <T extends ReqDeviceRegResult> T getReqDeviceRegResult(Class<T> resultType) {
+                return resultType.cast(IatReqDeviceRegResult.builder()
+                        .build()
+                );
+            }
+        };
+    }
+
+    @Override
+    public GetDeviceRegResultResponse requestDeviceRegistrationResult(GetDeviceRegResultRequest getDeviceRegResultRequest) {
         return null;
     }
 
     @Override
-    public RequestDeviceRegistrationResponse requestDeviceRegistrationQr(String userId, String serviceId, String jwt) {
-        return null;
+    public CheckedAuthRegResponse checkAuthRegistration(RegisterableAuthenticator registerableAuthenticator, AuthData authData) {
+        return registerableAuthenticator.checkAuthRegistration(authData);
     }
 
     @Override
-    public GetDeviceRegistrationResultResponse requestDeviceRegistrationResult(String requestId, String jwt) {
-        return null;
+    public ReqAuthRegResponse requestAuthRegistration(RegisterableAuthenticator registerableAuthenticator, AuthData authData) {
+        return registerableAuthenticator.requestAuthRegistration(authData);
     }
 
     @Override
-    public CheckAuthRegistrationResposne checkAuthRegistration(RegisterableAuthenticator registerableAuthenticator) {
-        return registerableAuthenticator.checkAuthRegistration();
+    public RegAuthResponse registerAuthentication(RegisterableAuthenticator registerableAuthenticator, AuthData authData) {
+        return registerableAuthenticator.registerAuthentication(authData);
     }
-
-    @Override
-    public RequestAuthRegistrationResponse requestAuthRegistration(RegisterableAuthenticator registerableAuthenticator) {
-        return registerableAuthenticator.requestAuthRegistration();
-    }
-
-    @Override
-    public RegisterAuthResponse registerAuth(RegisterableAuthenticator registerableAuthenticator) {
-        return registerableAuthenticator.registerAuth();
-    }
-
-    @Override
-    public ReRegisterAuthResponse reRegisterAuth(RegisterableAuthenticator registerableAuthenticator) {
-        return registerableAuthenticator.reRegisterAuth();
-    }
-
-    @Override
-    public RequestReregisterAuthResponse requestReregisterAuth(RegisterableAuthenticator registerableAuthenticator) {
-        return registerableAuthenticator.requestReregisterAuth();
-    }
-
-
 }

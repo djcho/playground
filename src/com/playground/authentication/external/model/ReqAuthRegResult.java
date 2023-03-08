@@ -1,4 +1,4 @@
 package com.playground.authentication.external.model;
 
-public class AuthenticationResponse {
+public interface ReqAuthRegResult {
 }

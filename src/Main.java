@@ -1,17 +1,16 @@
-import com.playground.authentication.Iat.*;
 import com.playground.authentication.Iat.api.IatAuthApi;
 import com.playground.authentication.Iat.authenticator.app.IatAppAuthData;
-import com.playground.authentication.Iat.authenticator.email.IatEmailAuthData;
-import com.playground.authentication.Iat.authenticator.manualotp.IatManualOtpAuthData;
-import com.playground.authentication.Iat.authenticator.otp.IatOtpAuthData;
 import com.playground.authentication.Iat.authenticator.app.IatAppAuthDescriptor;
+import com.playground.authentication.Iat.authenticator.email.IatEmailAuthData;
 import com.playground.authentication.Iat.authenticator.email.IatEmailAuthDescriptor;
+import com.playground.authentication.Iat.authenticator.manualotp.IatManualOtpAuthData;
 import com.playground.authentication.Iat.authenticator.manualotp.IatManualOtpAuthDescriptor;
+import com.playground.authentication.Iat.authenticator.otp.IatOtpAuthData;
 import com.playground.authentication.Iat.authenticator.otp.IatOtpAuthDescriptor;
+import com.playground.authentication.Iat.model.*;
+import com.playground.authentication.IatAuthServiceImpl;
+import com.playground.authentication.IatAuthenticatorFactory;
 import com.playground.authentication.external.ExternalAuthService;
-import com.playground.authentication.external.model.RegisterAuthResponse;
-import com.playground.authentication.external.model.RequestAuthResponse;
-import com.playground.authentication.external.model.*;
 
 public class Main {
 
@@ -19,85 +18,77 @@ public class Main {
         ExternalAuthService externalAuthService = new IatAuthServiceImpl(new IatAuthApi(), new IatAuthenticatorFactory());
 
         //인증 수단 목록 가져오기
-        GetAuthPolicyResponse authPolicy = externalAuthService.getAuthPolicy("djcho");
+        IatAuthPolicy authPolicy = externalAuthService.getAuthPolicy("djcho", IatAuthPolicy.class);
 
         //기기 등록
-        RequestDeviceRegistrationResponse deviceRegistrationResponse = externalAuthService.requestDeviceRegistration("djcho");
-        String qrData = deviceRegistrationResponse.getQrData();
+        IatReqDeviceRegResult iatReqDeviceRegResult = externalAuthService.requestDeviceRegistration("djcho", IatReqDeviceRegResult.class);
+        String qrData = iatReqDeviceRegResult.getRequestQr();
 
         //기기 등록 확인
-        GetDeviceRegistrationResultResponse deviceRegistrationResultResponse = externalAuthService.getDeviceRegistrationResult("requestId");
+        IatDeviceRegResult iatDeviceRegResult = externalAuthService.getDeviceRegistrationResult("djcho", "requestId", IatDeviceRegResult.class);
 
         //앱 인증 요청
-        RequestAuthResponse requestAuthResponse = externalAuthService.requestAuthentication(
+        IatAppReqAuthResult iatAppReqAuthResult = externalAuthService.requestAuthentication(
                 new IatAppAuthDescriptor(IatAppAuthData.builder()
                         .userId("djcho")
                         .serviceId("serviceId")
-                        .build()));
+                        .build()),
+                IatAppReqAuthResult.class);
 
         //otp 인증 (directly authentication)
-        AuthenticationResponse authenticationResponse = externalAuthService.authenticate(
+        IatOtpAuthResult iatOtpAuthResult = externalAuthService.authenticate(
                 new IatOtpAuthDescriptor(IatOtpAuthData.builder()
                         .otpNumber("123123")
-                        .requestId(requestAuthResponse.getRequestId())
-                        .build()));
+                        .requestId(iatAppReqAuthResult.getRequestId())
+                        .build()),
+                IatOtpAuthResult.class);
 
         //email 인증 요청 (requestable authentication)
-        requestAuthResponse = externalAuthService.requestAuthentication(
+        IatEmailReqAuthResult iatEmailReqAuthResult = externalAuthService.requestAuthentication(
                 new IatEmailAuthDescriptor(IatEmailAuthData.builder()
                         .userId("djcho")
                         .serviceId("serviceId")
-                        .build()));
+                        .build()),
+                IatEmailReqAuthResult.class);
 
-        GetAuthResultResponse getAuthResultResponse = externalAuthService.getAuthenticationResult(
+        IatEmailGetAuthResult iatEmailGetAuthResult = externalAuthService.getAuthenticationResult(
                 new IatEmailAuthDescriptor(IatEmailAuthData.builder()
                         .authCode("546456")
-                        .requestId(requestAuthResponse.getRequestId())
-                        .build()));
+                        .requestId(iatEmailReqAuthResult.getRequestId())
+                        .build()),
+                IatEmailGetAuthResult.class);
 
         //app 인증 확인
-        getAuthResultResponse = externalAuthService.getAuthenticationResult(
+        IatAppGetAuthResult iatAppGetAuthResult = externalAuthService.getAuthenticationResult(
                 new IatAppAuthDescriptor(IatAppAuthData.builder()
                         .requestId("requestId")
-                        .build()));
+                        .build()),
+                IatAppGetAuthResult.class);
 
         //수동 otp 등록 여부 확인
-        CheckAuthRegistrationResposne checkAuthRegistrationResposne = externalAuthService.checkAuthRegistration(
+        IatManualOtpCheckedAuthRegResult iatManualOtpCheckedAuthRegResult = externalAuthService.checkAuthRegistration(
                 new IatManualOtpAuthDescriptor(IatManualOtpAuthData.builder()
                         .userId("djcho")
-                        .build()));
+                        .build()),
+                IatManualOtpCheckedAuthRegResult.class);
 
-        String iatJwt = externalAuthService.generateJwt("djcho");
+        String iatJwt = externalAuthService.genUserAuthorizationToken("djcho");
         //수동 otp 등록 요청
-        RequestAuthRegistrationResponse requestAuthRegistrationResponse = externalAuthService.requestAuthRegistration(
+        IatManualOtpReqAuthRegResult iatManualOtpReqAuthRegResult = externalAuthService.requestAuthRegistration(
                 new IatManualOtpAuthDescriptor(IatManualOtpAuthData.builder()
                         .jwt(iatJwt)
                         .userId("djcho")
                         .serviceId("serviceId")
-                        .build()));
+                        .build()),
+                IatManualOtpReqAuthRegResult.class);
 
         //수동 otp 등록
-        RegisterAuthResponse registerAuthResponse = externalAuthService.registerAuth(
+        IatManualOtpRegAuthResult registerAuthResponse = externalAuthService.registerAuthentication(
                 new IatManualOtpAuthDescriptor(IatManualOtpAuthData.builder()
                         .jwt(iatJwt)
-                        .requestId(requestAuthRegistrationResponse.getRequestId())
+                        .requestId(iatManualOtpReqAuthRegResult.getRequestId())
                         .otpNumber("123123")
-                        .build()));
-
-        //수동 otp 재등록 요청
-        RequestReregisterAuthResponse requestReregisterAuthResponse = externalAuthService.requestReregisterAuth(
-                new IatManualOtpAuthDescriptor(IatManualOtpAuthData.builder()
-                        .jwt(iatJwt)
-                        .userId("djcho")
-                        .serviceId("serviceId")
-                        .build()));
-
-        //수동 otp 재등록
-        ReRegisterAuthResponse reRegisterAuthResponse = externalAuthService.reRegisterAuth(
-                new IatManualOtpAuthDescriptor(IatManualOtpAuthData.builder()
-                        .jwt(iatJwt)
-                        .requestId(requestReregisterAuthResponse.getRequestId())
-                        .otpNumber("123123")
-                        .build()));
+                        .build()),
+                IatManualOtpRegAuthResult.class);
     }
 }

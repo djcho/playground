@@ -1,17 +1,15 @@
 package com.playground.authentication.Iat.authenticator.otp;
 
-import com.playground.authentication.Iat.authenticator.otp.IatOtpAuthData;
-import com.playground.authentication.external.model.AuthenticationResponse;
-import com.playground.authentication.external.Authenticator;
+import com.playground.authentication.external.authenticator.AuthData;
+import com.playground.authentication.external.authenticator.Authenticator;
+import com.playground.authentication.external.model.AuthResponse;
 
 public class IatOtpAuthenticator implements Authenticator {
-    IatOtpAuthData iatOtpAuthData;
-    public IatOtpAuthenticator(IatOtpAuthData iatOtpAuthData) {
-        this.iatOtpAuthData = iatOtpAuthData;
+    public IatOtpAuthenticator() {
     }
 
     @Override
-    public AuthenticationResponse authenticate() {
+    public AuthResponse authenticate(AuthData authData) {
         //otp 인증
         return null;
     }

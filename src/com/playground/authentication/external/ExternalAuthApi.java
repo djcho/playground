@@ -1,17 +1,21 @@
 package com.playground.authentication.external;
 
+
+import com.playground.authentication.external.authenticator.AuthData;
+import com.playground.authentication.external.authenticator.Authenticator;
+import com.playground.authentication.external.authenticator.RegisterableAuthenticator;
+import com.playground.authentication.external.authenticator.RequestableAuthenticator;
 import com.playground.authentication.external.model.*;
 
 public interface ExternalAuthApi {
-    AuthenticationResponse authenticate(Authenticator authenticator);
-    RequestAuthResponse requestAuthentication(RequestableAuthenticator requestableAuthenticator);
-    GetAuthResultResponse requestAuthenticationResult(RequestableAuthenticator requestableAuthenticator);
+    AuthResponse authenticate(Authenticator authenticator, AuthData authData);
+    ReqAuthResponse requestAuthentication(RequestableAuthenticator requestableAuthenticator, AuthData authData);
+    GetAuthResultResponse requestAuthenticationResult(RequestableAuthenticator requestableAuthenticator, AuthData authData);
     GetAuthPolicyResponse getAuthPolicy(GetAuthPolicyRequest getAuthPolicyRequest);
-    RequestDeviceRegistrationResponse requestDeviceRegistration(RequestDeviceRegistrationRequest requestDeviceRegistrationRequest);
-    GetDeviceRegistrationResultResponse requestDeviceRegistrationResult(String requestId, String jwt);
-    CheckAuthRegistrationResposne checkAuthRegistration(RegisterableAuthenticator registerableAuthenticator);
-    RequestAuthRegistrationResponse requestAuthRegistration(RegisterableAuthenticator registerableAuthenticator);
-    RegisterAuthResponse registerAuth(RegisterableAuthenticator registerableAuthenticator);
-    ReRegisterAuthResponse reRegisterAuth(RegisterableAuthenticator registerableAuthenticator);
-    RequestReregisterAuthResponse requestReregisterAuth(RegisterableAuthenticator registerableAuthenticator);
+    ReqDeviceRegResponse requestDeviceRegistration(ReqDeviceRegRequest reqDeviceRegRequest);
+    GetDeviceRegResultResponse requestDeviceRegistrationResult(GetDeviceRegResultRequest getDeviceRegResultRequest);
+
+    CheckedAuthRegResponse checkAuthRegistration(RegisterableAuthenticator registerableAuthenticator, AuthData authData);
+    ReqAuthRegResponse requestAuthRegistration(RegisterableAuthenticator registerableAuthenticator, AuthData authData);
+    RegAuthResponse registerAuthentication(RegisterableAuthenticator registerableAuthenticator, AuthData authData);
 }
